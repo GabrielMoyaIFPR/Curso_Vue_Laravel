@@ -13,6 +13,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PrincipalController@principal');
+Route::get('/sobre-nos', 'SobreNosController@sobrenos');
+Route::get('/contato', 'ContatoController@contato');
+
+// Route::get('/', function () {
+//     return 'Olá, seja bem vindo ao Curso!';
+// });
+
+// Route::get('/sobre-nos', function () {
+//     return 'Sobre Nós';
+// });
+
+// Route::get('/contato', function () {
+//     return 'Contato';
+// });
+
+
+/*
+
+Estrutura da rota
+Route::get($uri, $callback)
+
+Métodos:
+get
+post
+put
+patch
+delete
+options
+*/
