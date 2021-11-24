@@ -13,53 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PrincipalController@principal');
-Route::get('/sobre-nos', 'SobreNosController@sobrenos');
-Route::get('/contato', 'ContatoController@contato');
+Route::get('/', 'PrincipalController@principal')->name('site.index');
+Route::get('/sobre-nos', 'SobreNosController@sobrenos')->name('site.sobrenos');
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
+Route::get('/login', function(){return 'Login'; })->name('site.login');
 
-Route::get('/contato/{nome}/{categoria_id}', 
-function(
-    string $nome = 'Desconhecido', 
-    int $categoria_id = 1) {
+Route::prefix('/app')->group(function(){
+    Route::get('/clientes', function(){return 'Clientes'; })->name('app.clientes');
+    Route::get('/fornecedores', function(){return 'Fornecedores'; })->name('app.fornecedores');
+    Route::get('/produtos', function(){return 'Produtos'; })->name('app.produtos');
 
-    echo "Estamos aqui: $nome - $categoria_id "; 
-    }
-)->where('categoria_id', '[0-9]+')->where('nome', '[A-Za-z]+');
-
-
-/* 
-----Rotas com parâmetros opcionais----
-Route::get('/contato/{nome}/{categoria}/{assunto}/{mensagem?}', 
-function(string $nome, string $categoria,string $assunto,string $mensagem = 'Mensagem não informada') {
-
-    echo "Estamos aqui: $nome - $categoria - $assunto - $mensagem";
 });
 
-*/
-
-// Route::get('/', function () {
-//     return 'Olá, seja bem vindo ao Curso!';
-// });
-
-// Route::get('/sobre-nos', function () {
-//     return 'Sobre Nós';
-// });
-
-// Route::get('/contato', function () {
-//     return 'Contato';
-// });
 
 
-/*
-
-----Estrutura da rota----
-Route::get($uri, $callback)
-
----- Métodos: ----
-get
-post
-put
-patch
-delete
-options
-*/
