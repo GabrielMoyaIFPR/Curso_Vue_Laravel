@@ -18,6 +18,12 @@ Route::get('/sobre-nos', 'SobreNosController@sobrenos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 Route::get('/login', function(){return 'Login'; })->name('site.login');
 
+Route::fallback(function(){
+    echo 'Página não encontrada. <a href="'.route('site.index').'">clique aqui</a> para ir para a página inicial.';
+});
+
+Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
+
 // -------------Prefixos------------
 // Route::prefix('/app')->group(function(){
 //     Route::get('/clientes', function(){return 'Clientes'; })->name('app.clientes');
@@ -39,8 +45,5 @@ Route::get('/login', function(){return 'Login'; })->name('site.login');
 
 
 //----------------Rota de contingência(fallback)------------------
-Route::fallback(function(){
-    echo 'Página não encontrada. <a href="'.route('site.index').'">clique aqui</a> para ir para a página inicial.';
-});
 
 
