@@ -24,13 +24,13 @@ Route::fallback(function(){
 
 Route::get('/teste/{p1}/{p2}', 'TesteController@teste')->name('teste');
 
-// -------------Prefixos------------
-// Route::prefix('/app')->group(function(){
-//     Route::get('/clientes', function(){return 'Clientes'; })->name('app.clientes');
-//     Route::get('/fornecedores', function(){return 'Fornecedores'; })->name('app.fornecedores');
-//     Route::get('/produtos', function(){return 'Produtos'; })->name('app.produtos');
+//-------------Prefixos------------
+Route::prefix('/app')->group(function(){
+    Route::get('/clientes', function(){return 'Clientes'; })->name('app.clientes');
+    Route::get('/fornecedores', 'FornecedorController@index')->name('app.fornecedores');
+    Route::get('/produtos', function(){return 'Produtos'; })->name('app.produtos');
 
-// });
+});
 
 // ---------Redirecionamento de rotas----------
 // Route::get('/rota1', function(){
