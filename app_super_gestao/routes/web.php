@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PrincipalController@principal')->name('site.index');
 Route::get('/sobre-nos', 'SobreNosController@sobrenos')->name('site.sobrenos');
 Route::get('/contato', 'ContatoController@contato')->name('site.contato');
+Route::post('/contato', 'ContatoController@contato')->name('site.contato');
 Route::get('/login', function(){return 'Login'; })->name('site.login');
 
 Route::fallback(function(){
@@ -44,6 +45,5 @@ Route::prefix('/app')->group(function(){
 // Route::redirect('/rota2', '/rota1');
 
 
-//----------------Rota de contingência(fallback)------------------
 
 
