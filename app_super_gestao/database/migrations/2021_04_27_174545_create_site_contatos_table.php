@@ -18,9 +18,10 @@ class CreateSiteContatosTable extends Migration
             $table->timestamps();
             $table->string('nome', 50);
             $table->string('telefone', 20);
-            $table->string('e-mail', 80);
+            $table->string('email', 80);
             $table->integer('motivo_contato');
             $table->text('mensagem');
+
         });
     }
 
