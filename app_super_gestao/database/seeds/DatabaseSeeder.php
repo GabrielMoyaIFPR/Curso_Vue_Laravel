@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Para processar Seeders específicos 
+        //php artisan db:seed --class=...Seeder
+
         // $this->call(UserSeeder::class);
+        // $this->call(FornecedorSeeder::class);
+        $this->call(SiteContatoSeeder::class);
     }
 }
