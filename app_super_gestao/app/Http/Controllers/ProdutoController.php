@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Unidade;
 use App\Produto;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,11 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        //Filtrar produtos 
+        $produtos = Produto::paginate(10);
+        return view('app.produto.index', ['produtos' => $produtos, 'request' => $request->all() ]);
     }
 
     /**
@@ -22,9 +25,10 @@ class ProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $unidades = Unidade::all();
+        return view('app.produto.create', ['unidades' => $unidades]);
     }
 
     /**
@@ -35,7 +39,32 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Verificar se o token não está preenchido e se o Id não está informado
+        if($request->input('_token') != '' && $request->input('id') == '') {
+
+            //Validação de regras dos campos e coleta de feedbacks
+            $regras = [
+                'nome'=> 'required|min:3|max:40',
+                'descricao'=> 'required|min:3|max:2000',
+                'peso'=> 'required|integer',
+                'unidade_id'=> 'exists:unidades,id'
+            ];
+
+            $feedback = [
+                'required' => 'O campo :attribute deve ser preenchido!',
+                'nome.min' => 'O nome deve ter no mínimo 3 caracteres',
+                'nome.max' => 'O nome deve ter no máximo 3 caracteres',
+                'descricao.min' => 'A descrição deve ter no mínimo 3 caracteres',
+                'descricao.max' => 'A descrição deve ter no máximo 3 caracteres',
+                'peso.integer' => 'O peso deve ser um número inteiro',
+                'unidade_id.exists' => 'A unidade de medida informada não existe!'
+            ];
+
+            $request->validate($regras, $feedback);
+
+            Produto::create($request->all());
+            return redirect()->route('produto.index');
+        }
     }
 
     /**
@@ -46,7 +75,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-        //
+        return view('app.produto.show', ['produto' => $produto]);
     }
 
     /**
@@ -57,7 +86,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        //
+        $unidades = Unidade::all();
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
     }
 
     /**
@@ -69,7 +99,8 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-        //
+        $produto->update($request->all());
+        return redirect()->route('produto.show', ['produto' => $produto->id]);
     }
 
     /**
@@ -80,6 +111,7 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->delete();
+        return redirect()->route('produto.index');
     }
 }
