@@ -33,7 +33,6 @@ Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(funct
     // Layout do Menu
     Route::get('/home', 'HomeController@index')->name('app.home');
     Route::get('/sair', 'LoginController@sair')->name('app.sair');
-    Route::get('/cliente', 'ClienteController@index')->name('app.cliente');
 
     // Fornecedores
     Route::get('/fornecedor', 'FornecedorController@index')->name('app.fornecedor');
@@ -46,6 +45,16 @@ Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(funct
 
     // Produtos (Cadastro simplificado do Laravel)
     Route::resource('produto', 'ProdutoController');
+
+    //Produtos Detalhes (Cadastro simplificado do Laravel)
+    Route::resource('produto-detalhe', 'ProdutoDetalheController');
+
+    //Clientes (Cadastro simplificado do Laravel)
+    Route::resource('cliente', 'ClienteController');
+    //Pedidos (Cadastro simplificado do Laravel)
+    Route::resource('pedido', 'PedidoController');
+    //Pedidos Produtos (Cadastro simplificado do Laravel)
+    Route::resource('pedido-produto', 'PedidoProdutoController');
 });
 
 // Teste de rota

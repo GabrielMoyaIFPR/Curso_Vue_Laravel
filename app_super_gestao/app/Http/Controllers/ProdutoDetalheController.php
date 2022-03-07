@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-class ClienteController extends Controller
+use App\Unidade;
+use App\ProdutoDetalhe;
+use App\ItemDetalhe;
+class ProdutoDetalheController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return view('app.cliente');
+        //
     }
 
     /**
@@ -23,7 +25,8 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        $unidades = Unidade::all();
+        return view('app.produto_detalhe.create', ['unidades' => $unidades]);
     }
 
     /**
@@ -34,7 +37,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ProdutoDetalhe::create($request->all());
     }
 
     /**
@@ -51,24 +54,32 @@ class ClienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  App\ProdutoDetalhe $produtoDetalhe
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        //Filtro com LazyLoading
+        $produtoDetalhe = ItemDetalhe::find($id);
+
+        //Filtro com EagerLoading
+        // $produtoDetalhe = ItemDetalhe::with(['item'])->find($id);
+        
+        $unidades = Unidade::all();
+        return view('app.produto_detalhe.edit', ['produto_detalhe' => $produtoDetalhe, 'unidades' => $unidades ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\ProdutoDetalhe $produtoDetalhe
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ProdutoDetalhe $produtoDetalhe)
     {
-        //
+        $produtoDetalhe->update($request->all());
+        echo 'Atualizado com sucesso';
     }
 
     /**
