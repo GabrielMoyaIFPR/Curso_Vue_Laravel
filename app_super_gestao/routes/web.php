@@ -51,10 +51,16 @@ Route::middleware('autenticacao:padrao, visitante')->prefix('/app')->group(funct
 
     //Clientes (Cadastro simplificado do Laravel)
     Route::resource('cliente', 'ClienteController');
+
     //Pedidos (Cadastro simplificado do Laravel)
     Route::resource('pedido', 'PedidoController');
+
     //Pedidos Produtos (Cadastro simplificado do Laravel)
-    Route::resource('pedido-produto', 'PedidoProdutoController');
+    // Route::resource('pedido-produto', 'PedidoProdutoController');
+    Route::get('pedido-produto/create/{pedido}', 'PedidoProdutoController@create')->name('pedido-produto.create');
+    Route::post('pedido-produto/store/{pedido}', 'PedidoProdutoController@store')->name('pedido-produto.store');
+    // Route::delete('pedido-produto/destroy/{pedido}/{produto}', 'PedidoProdutoController@destroy')->name('pedido-produto.destroy'); 
+    Route::delete('pedido-produto/destroy/{pedidoProduto}/{pedido_id}', 'PedidoProdutoController@destroy')->name('pedido-produto.destroy');
 });
 
 // Teste de rota
