@@ -62,9 +62,9 @@ class ProdutoController extends Controller
             $feedback = [
                 'required' => 'O campo :attribute deve ser preenchido!',
                 'nome.min' => 'O nome deve ter no mínimo 3 caracteres',
-                'nome.max' => 'O nome deve ter no máximo 3 caracteres',
+                'nome.max' => 'O nome deve ter no máximo 40 caracteres',
                 'descricao.min' => 'A descrição deve ter no mínimo 3 caracteres',
-                'descricao.max' => 'A descrição deve ter no máximo 3 caracteres',
+                'descricao.max' => 'A descrição deve ter no máximo 440 caracteres',
                 'peso.integer' => 'O peso deve ser um número inteiro',
                 'unidade_id.exists' => 'A unidade de medida informada não existe!',
                 'fornecedor_id.exists' => 'O fornecedor informado não existe!'

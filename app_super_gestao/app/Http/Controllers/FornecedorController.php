@@ -43,7 +43,7 @@ class FornecedorController extends Controller
             $feedback = [
                 'required' => 'O campo :attribute deve ser preenchido!',
                 'nome.min' => 'O nome deve ter no mínimo 3 caracteres',
-                'nome.max' => 'O nome deve ter no máximo 3 caracteres',
+                'nome.max' => 'O nome deve ter no máximo 40 caracteres',
                 'uf.min' => 'UF deve ter no mínimo 2 caracteres',
                 'uf.max' => 'UF nome deve ter no máximo 2 caracteres',
                 'email.email' => 'O e-mail deve ser válido!'

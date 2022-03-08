@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Pedido;
+use App\Cliente;
 class PedidoController extends Controller
 {
     /**
@@ -11,9 +12,10 @@ class PedidoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $pedidos = Pedido::paginate(10);
+        return view('app.pedido.index', ['pedidos' => $pedidos, 'request' => $request->all()]);
     }
 
     /**
@@ -23,7 +25,8 @@ class PedidoController extends Controller
      */
     public function create()
     {
-        //
+        $clientes = Cliente::all();
+        return view('app.pedido.create',  ['clientes' => $clientes]);
     }
 
     /**
@@ -34,7 +37,15 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            $regras = ['cliente_id'=> 'exists:clientes,id'];
+
+            $feedback = ['cliente_id.exists' => 'O cliente não existe!'];
+
+            $request->validate($regras, $feedback);
+
+            Pedido::create($request->all());
+            return redirect()->route('pedido.index');
+
     }
 
     /**
@@ -43,9 +54,9 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pedido $pedido)
     {
-        //
+        return view('app.pedido.show', ['pedido' => $pedido]);
     }
 
     /**
@@ -56,7 +67,9 @@ class PedidoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pedido = Pedido::find($id);
+        $clientes = Cliente::all();
+        return view('app.pedido.edit', ['pedido' => $pedido, 'clientes' => $clientes]);
     }
 
     /**
@@ -66,9 +79,10 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pedido $pedido)
     {
-        //
+        $pedido->update($request->all());
+        return redirect()->route('pedido.index');
     }
 
     /**
@@ -79,6 +93,7 @@ class PedidoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Pedido::find($id)->delete();
+        return redirect()->route('pedido.index');
     }
 }
