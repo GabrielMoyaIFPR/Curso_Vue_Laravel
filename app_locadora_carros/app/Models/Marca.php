@@ -13,13 +13,14 @@ class Marca extends Model
     public function rules() {
         return [
             'nome' => 'required|unique:marcas,nome,'.$this->id.'|min:3',
-            'imagem' => 'required'
+            'imagem' => 'required|file|mimes:png'
         ];
     }
 
     public function feedbacks() {
         return [
             'required' => 'O campo :attribute é obrigatório',
+            'imagem.mimes' => 'O arquivo da imagem deve ser do tipo .png',
             'nome.unique' => 'O nome da marca já foi cadastrado',
             'nome.min' => 'O nome da marca deve ter no mínimo 3 caracteres'
         ];

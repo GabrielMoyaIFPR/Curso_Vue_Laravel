@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Models\Marca;
 use Illuminate\Http\Request;
 
@@ -45,7 +46,13 @@ class MarcaController extends Controller
 
         $request->validate($this->marca->rules(), $this->marca->feedbacks());
 
-        $marca = $this->marca->create($request->all());
+        $image = $request->file('imagem');
+        $imagem_urn = $image->store('imagens/marcas', 'public');
+
+        $marca = $this->marca->create([
+            'nome' => $request->nome,
+            'imagem' => $imagem_urn
+        ]);
         return response()->json($marca, 201);
     }
 
@@ -85,6 +92,7 @@ class MarcaController extends Controller
     public function update(Request $request, $id)
     {
         $marca = $this->marca->find($id);
+
         if($marca === null){
             return response()->json(['erro' => 'Impossível realizar a atualização. Recurso Inexistente', 404]);
         }
@@ -105,7 +113,20 @@ class MarcaController extends Controller
         }else {
             $request->validate($marca->rules(), $marca->feedbacks());
         }
-        $marca->update($request->all());
+
+        // Remove a imagem antiga caso seja enviada uma nova imagem
+        if($request->file('imagem')){
+            Storage::disk('public')->delete($marca->imagem);
+        }
+
+        $image = $request->file('imagem');
+        $imagem_urn = $image->store('imagens/marcas', 'public');
+        
+        $marca->update([
+            'nome' => $request->nome,
+            'imagem' => $imagem_urn
+        ]);
+
         return response()->json($marca, 201);
     }
 
@@ -121,6 +142,10 @@ class MarcaController extends Controller
         if($marca === null){
             return response()->json(['erro' => 'Impossível apagar. Recurso Inexistente', 404]);
         }
+
+        
+        Storage::disk('public')->delete($marca->imagem);
+
         $marca->delete();
         return response()->json(['msg' => 'A marca foi removida com sucesso!!', 200]);
     }
